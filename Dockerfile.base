@@ -1,0 +1,23 @@
+FROM owl.registry/alpine:py3-dev
+
+MAINTAINER Hasan Basri <hbasria@gmail.com>
+
+RUN set -x \
+ 		&& mkdir -p /home/user /var/log/user \
+		&& addgroup -g 1000 -S user \
+		&& adduser -u 1000 -h /home/user -D -S -G user user \
+		&& chown -R user:user /home/user /var/log/user
+
+RUN  virtualenv /home/user/.virtualenvs/app
+
+RUN apk add --update --no-cache \
+    jpeg-dev \
+    libffi \
+    libffi-dev \
+    postgresql-dev \
+    zlib-dev \
+    tzdata
+
+COPY resources/requirements/base.txt /tmp/requirements.txt
+
+RUN  /home/user/.virtualenvs/app/bin/pip install -r /tmp/requirements.txt

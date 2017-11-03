@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  iotpy-consumer-portal:
+    image: registry.sekomy.com/iotpy-consumer-portal:0.2.5
+    environment:
+      - DJANGO_SECRET_KEY=**secret**
+      - DJANGO_SETTINGS_MODULE=tests.settings
+      - DATABASE_URL=postgres://sky:secret@postgresql:5432/consumer_portal
+      - CRM_API_URL=http://operatorportal:9902
+      - CRM_API_USERNAME=w0dV2D6EnFL0eqTGsYXJsw9u76UYfVMQua7utBLi
+      - CRM_API_PASSWORD=hNhnCjwTVzkT6dETWWGzmqJtteakQZTy8GAgtI7vKQ18gHiyqm6cfG5ibnpNx5QZK1fpN4BfK4LvpM9ec04k9hG1PuxblpZKvBQaatZTAxIDK171ZZPedqmtxX48Nglh
+      - CRM_TOKEN_URL=http://${CRM_API_USERNAME}:${CRM_API_PASSWORD}@operatorportal:9902/api/o/token/
+    volumes:
+      - /home/sky/apps/consumer_portal/build/static:/app/consumer_portal/static
+      - /home/sky/apps/consumer_portal/build:/app/consumer_portal/templates
+    ports:
+      - 9003:8000
+    extra_hosts:
+     - "postgresql:10.134.50.203"
+     - "operatorportal:10.134.50.225"
+
+    network_mode: "bridge"
+
+
